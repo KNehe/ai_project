@@ -1,0 +1,49 @@
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Writing Assistant</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md flex space-x-6">
+        <div class="w-1/2">
+            <h1 class="text-2xl font-bold mb-4 text-gray-800">AI Writing Assistant</h1>
+            <form method="post" hx-post="." hx-target="#result" hx-swap="innerHTML" hx-indicator="#spinner" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    {{ form.topic.label_tag }}
+                    {{ form.topic|add_class:"w-full p-2 border border-gray-300 rounded" }}
+                </div>
+                <div>
+                    {{ form.text.label_tag }}
+                    {{ form.text|add_class:"w-full p-2 border border-gray-300 rounded" }}
+                </div>
+                <div>
+                    {{ form.tone.label_tag }}
+                    {{ form.tone|add_class:"w-full p-2 border border-gray-300 rounded" }}
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button 
+                        type="submit" 
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Submit
+                    </button>
+                    <div id="spinner" class="htmx-indicator">
+                        <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="result" class="w-1/2 p-4 bg-gray-100 border-l-4 border-blue-500 rounded"></div>
+    </div>
+</body>
+</html>
